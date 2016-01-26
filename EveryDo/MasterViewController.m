@@ -15,7 +15,6 @@
 @interface MasterViewController () <UITableViewDelegate, UITableViewDataSource, AddNewProtocol>
 
 @property NSMutableArray *objects;
-@property (strong, nonatomic) IBOutlet UITableView *masterTable;
 
 @end
 
@@ -38,6 +37,9 @@
     
     self.objects = [[NSMutableArray alloc] init];
     [self.objects addObjectsFromArray:@[makeBreakfast, learnToCode, doLaundry, eatDinner, feedCat]];
+    
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeCell:)];
+    [self.tableView addGestureRecognizer:swipe];
     
 }
 
@@ -62,11 +64,15 @@
 }
 
 - (void)addNew:(ToDo *)newToDo {
-    [self.objects addObject:newToDo];
+    [self.objects insertObject:newToDo atIndex:0];
     
     // Tell our tableview to insert a new row
-    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.objects.count - 1 inSection:0];
-    [self.masterTable insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)swipeCell:(UIGestureRecognizer *)sender {
+    
 }
 
 #pragma mark - Segues

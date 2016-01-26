@@ -124,7 +124,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Master" id="Zdf-7t-Un8"/>
                     <connections>
-                        <outlet property="masterTable" destination="r7i-6Z-zg0" id="mS6-YO-jiJ"/>
                         <segue destination="KNV-48-xUB" kind="presentation" identifier="addToDo" id="dT7-Dc-zWq"/>
                     </connections>
                 </tableViewController>
