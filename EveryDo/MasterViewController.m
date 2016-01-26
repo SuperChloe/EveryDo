@@ -8,12 +8,14 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "AddNewViewController.h"
 #import "ToDo.h"
 #import "ToDoCell.h"
 
-@interface MasterViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface MasterViewController () <UITableViewDelegate, UITableViewDataSource, AddNewProtocol>
 
 @property NSMutableArray *objects;
+@property (strong, nonatomic) IBOutlet UITableView *masterTable;
 
 @end
 
@@ -50,12 +52,21 @@
 }
 
 - (void)insertNewObject:(id)sender {
-    if (!self.objects) {
-        self.objects = [[NSMutableArray alloc] init];
-    }
-    [self.objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    if (!self.objects) {
+//        self.objects = [[NSMutableArray alloc] init];
+//    }
+//    [self.objects insertObject:[NSDate date] atIndex:0];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self performSegueWithIdentifier:@"addToDo" sender:self];
+}
+
+- (void)addNew:(ToDo *)newToDo {
+    [self.objects addObject:newToDo];
+    
+    // Tell our tableview to insert a new row
+    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:self.objects.count - 1 inSection:0];
+    [self.masterTable insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Segues
@@ -68,6 +79,10 @@
         [controller setDetailItem:toDo];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         controller.navigationItem.leftItemsSupplementBackButton = YES;
+    }
+    
+    if ([segue.identifier isEqualToString:@"addToDo"]) {
+        [segue.destinationViewController setDelegate:self];
     }
 }
 
