@@ -9,8 +9,9 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 #import "ToDo.h"
+#import "ToDoCell.h"
 
-@interface MasterViewController ()
+@interface MasterViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property NSMutableArray *objects;
 
@@ -33,6 +34,7 @@
     ToDo *eatDinner = [[ToDo alloc] initWithTitle:@"Meet friend for Dinner" description:@"At restaurant" andPriority:4];
     ToDo *feedCat = [[ToDo alloc] initWithTitle:@"Feed the cat" description:@"Calvin is hungry" andPriority:1];
     
+    self.objects = [[NSMutableArray alloc] init];
     [self.objects addObjectsFromArray:@[makeBreakfast, learnToCode, doLaundry, eatDinner, feedCat]];
     
 }
@@ -80,10 +82,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    ToDoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ToDoCell" forIndexPath:indexPath];
 
-    NSDate *object = self.objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    ToDo *toDo = self.objects[indexPath.row];
+    cell.titleLabel.text = toDo.title;
+    cell.descriptionLabel.text = toDo.descr;
+    cell.priorityLabel.text = [NSString stringWithFormat:@"%i", toDo.priorityNumber];
     return cell;
 }
 
