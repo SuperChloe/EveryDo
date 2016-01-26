@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MasterViewController.h"
 #import "ToDo.h"
 
 @protocol AddNewProtocol <NSObject>
