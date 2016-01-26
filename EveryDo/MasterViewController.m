@@ -54,13 +54,24 @@
 }
 
 - (void)insertNewObject:(id)sender {
-//    if (!self.objects) {
-//        self.objects = [[NSMutableArray alloc] init];
-//    }
-//    [self.objects insertObject:[NSDate date] atIndex:0];
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self performSegueWithIdentifier:@"addToDo" sender:self];
+}
+
+- (void)swipeCell:(UISwipeGestureRecognizer *)sender {
+    CGPoint location = [sender locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    ToDo *toDo = self.objects[indexPath.row];
+    
+    if (toDo.isCompleted == NO) {
+        toDo.isCompleted = YES;
+    } else {
+        toDo.isCompleted = NO;
+    }
+    
+    [self.tableView reloadData];
+   
+    NSLog(@"Swipe!");
+    
 }
 
 - (void)addNew:(ToDo *)newToDo {
@@ -69,10 +80,6 @@
     // Tell our tableview to insert a new row
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
-- (void)swipeCell:(UIGestureRecognizer *)sender {
-    
 }
 
 #pragma mark - Segues
@@ -106,9 +113,24 @@
     ToDoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ToDoCell" forIndexPath:indexPath];
 
     ToDo *toDo = self.objects[indexPath.row];
+    
+    if (toDo.isCompleted == NO) {
     cell.titleLabel.text = toDo.title;
     cell.descriptionLabel.text = toDo.descr;
     cell.priorityLabel.text = [NSString stringWithFormat:@"%i", toDo.priorityNumber];
+    } else {
+        NSMutableAttributedString *titleStrike = [[NSMutableAttributedString alloc] initWithString:(cell.titleLabel.text)];
+        [titleStrike addAttribute:NSStrikethroughStyleAttributeName
+                            value:@2
+                            range:NSMakeRange(0, [titleStrike length])];
+        NSMutableAttributedString *descrStrike = [[NSMutableAttributedString alloc] initWithString:(cell.descriptionLabel.text)];
+        [descrStrike addAttribute:NSStrikethroughStyleAttributeName
+                                value:@2
+                                range:NSMakeRange(0, [descrStrike length])];
+        cell.titleLabel.attributedText = titleStrike;
+        cell.descriptionLabel.attributedText = descrStrike;
+    }
+    
     return cell;
 }
 
