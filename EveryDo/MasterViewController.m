@@ -8,10 +8,12 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "ToDo.h"
 
 @interface MasterViewController ()
 
 @property NSMutableArray *objects;
+
 @end
 
 @implementation MasterViewController
@@ -24,6 +26,15 @@
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    
+    ToDo *makeBreakfast = [[ToDo alloc] initWithTitle:@"Make breakfast" description:@"Ceral" andPriority:5];
+    ToDo *learnToCode = [[ToDo alloc] initWithTitle:@"Learn to code" description:@"Go to Lighthouse Labs" andPriority:2];
+    ToDo *doLaundry = [[ToDo alloc] initWithTitle:@"Do laundry" description:@"Separate whites and colors" andPriority:3];
+    ToDo *eatDinner = [[ToDo alloc] initWithTitle:@"Meet friend for Dinner" description:@"At restaurant" andPriority:4];
+    ToDo *feedCat = [[ToDo alloc] initWithTitle:@"Feed the cat" description:@"Calvin is hungry" andPriority:1];
+    
+    [self.objects addObjectsFromArray:@[makeBreakfast, learnToCode, doLaundry, eatDinner, feedCat]];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
