@@ -29,7 +29,7 @@
     self.navigationItem.rightBarButtonItem = addButton;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
-    ToDo *makeBreakfast = [[ToDo alloc] initWithTitle:@"Make breakfast" description:@"Ceral" andPriority:5];
+    ToDo *makeBreakfast = [[ToDo alloc] initWithTitle:@"Make breakfast" description:@"Cereal" andPriority:5];
     ToDo *learnToCode = [[ToDo alloc] initWithTitle:@"Learn to code" description:@"Go to Lighthouse Labs" andPriority:2];
     ToDo *doLaundry = [[ToDo alloc] initWithTitle:@"Do laundry" description:@"Separate whites and colors" andPriority:3];
     ToDo *eatDinner = [[ToDo alloc] initWithTitle:@"Meet friend for Dinner" description:@"At restaurant" andPriority:4];
@@ -162,5 +162,7 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
+
+
 
 @end
